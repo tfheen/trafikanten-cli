@@ -1,0 +1,7 @@
+trafikanten-cli
+===============
+
+This is a trivial command line interface for calculating the route
+between two stops using the JSON API provided by trafikanten.
+
+All routing and live traffic data are provided by Trafikanten.no.
