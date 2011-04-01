@@ -5,3 +5,27 @@ This is a trivial command line interface for calculating the route
 between two stops using the JSON API provided by trafikanten.
 
 All routing and live traffic data are provided by Trafikanten.no.
+
+To use it, run:
+
+trafikanten $from $to
+
+Example output:
+$ trafikanten Bergkrystallen Storo
+2011-04-01 2000 - 2026
+  [2000-2013] Linje 4 fra Bergkrystallen [T-bane] mot Ringen til Brynseng [T-bane]
+  [2013-2014] Gå fra Brynseng [T-bane] til Brynseng T (i Østensjøveien)
+  [2016-2026] Linje 23 fra Brynseng T (i Østensjøveien) mot Lysaker til Storo (Ringvei-rampe nordover)
+2011-04-01 2015 - 2044
+  [2015-2033] Linje 4 fra Bergkrystallen [T-bane] mot Ringen til Tøyen [T-bane]
+  [2037-2044] Linje 6 fra Tøyen [T-bane] mot Ringen til Storo [T-bane]
+2011-04-01 2030 - 2059
+  [2030-2048] Linje 4 fra Bergkrystallen [T-bane] mot Ringen til Tøyen [T-bane]
+  [2052-2059] Linje 6 fra Tøyen [T-bane] mot Ringen til Storo [T-bane]
+2011-04-01 2045 - 2114
+  [2045-2103] Linje 4 fra Bergkrystallen [T-bane] mot Ringen til Tøyen [T-bane]
+  [2107-2114] Linje 6 fra Tøyen [T-bane] mot Ringen til Storo [T-bane]
+2011-04-01 2100 - 2126
+  [2100-2113] Linje 4 fra Bergkrystallen [T-bane] mot Ringen til Brynseng [T-bane]
+  [2113-2114] Gå fra Brynseng [T-bane] til Brynseng T (i Østensjøveien)
+  [2116-2126] Linje 23 fra Brynseng T (i Østensjøveien) mot Lysaker til Storo (Ringvei-rampe nordover)
