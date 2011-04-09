@@ -7,6 +7,7 @@ use LWP::Simple;
 use POSIX qw(strftime);
 use Data::Dumper;
 use utf8;
+use Term::ANSIColor;
 
 my $placesURI = "http://api-test.trafikanten.no/Place/FindMatchesOfType/%s?placeType=Stop";
 my $getTravelAfterByStopsURI = "http://api-test.trafikanten.no/Travel/GetTravelsAfterByStops?fromstops=%s&tostops=%s";
@@ -28,17 +29,21 @@ sub format_date {
 }
 
 foreach my $option (@{$travels}) {
-	print format_date("%Y-%m-%d %H%M - ", $option->{DepartureTime});
-	print format_date("%H%M\n", $option->{ArrivalTime});
+	print(color('bold blue underline'),
+	      format_date("%Y-%m-%d %H%M - ", $option->{DepartureTime}),
+	      format_date("%H%M ", $option->{ArrivalTime}),
+	      sprintf("(%d minutter)\n", (format_date("%s", $option->{ArrivalTime}) -
+				 format_date("%s", $option->{DepartureTime})) / 60),
+	      color('reset'));
 	foreach my $stage (@{$option->{TravelStages}}) {
 		if ($stage->{Destination} ne 'Gangledd') {
 			printf("  [%s-%s] Linje %s fra %s mot %s til %s\n",
 			       format_date("%H%M", $stage->{DepartureTime}),
 			       format_date("%H%M", $stage->{ArrivalTime}),
-			       $stage->{LineName},
-			       $stage->{DepartureStop}->{Name},
+			       colored($stage->{LineName}, 'bold'),
+			       colored($stage->{DepartureStop}->{Name}, 'yellow'),
 			       $stage->{Destination},
-			       $stage->{ArrivalStop}->{Name});
+			       colored($stage->{ArrivalStop}->{Name},'yellow'));
 		} else {
 			printf("  [%s-%s] Gå fra %s til %s\n",
 			       format_date("%H%M", $stage->{DepartureTime}),
