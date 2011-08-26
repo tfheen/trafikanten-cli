@@ -33,12 +33,28 @@ use POSIX qw(strftime);
 use Data::Dumper;
 use utf8;
 use Term::ANSIColor;
+use Config::File;
 
 my $placesURI = "http://api-test.trafikanten.no/Place/FindMatchesOfType/%s?placeType=Stop";
 my $getTravelAfterByStopsURI = "http://api-test.trafikanten.no/Travel/GetTravelsAfterByStops?fromstops=%s&tostops=%s";
 
-my $from = $ARGV[0];
-my $to = $ARGV[1];
+my ($from, $to);
+my $conf;
+my $conffile = $ENV{HOME} . "/.trafikanten";
+if (-f $conffile) {
+	$conf = Config::File::read_config_file($conffile);
+}
+if (scalar(@ARGV) == 1) {
+	if (defined $conf and exists($conf->{DEFAULT_FROM})) {
+		$from = $conf->{DEFAULT_FROM};
+	} else {
+		die "Not enough arguments";
+	}
+	$to = $ARGV[0];
+} else {
+	$from = $ARGV[0];
+	$to = $ARGV[1];
+}
 
 my @fromplaces = map {$_->{ID}} @{decode_json(get(sprintf($placesURI, $from)))};
 my @toplaces = map {$_->{ID}} @{decode_json(get(sprintf($placesURI, $to)))};

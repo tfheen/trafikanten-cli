@@ -29,3 +29,13 @@ $ trafikanten Bergkrystallen Storo
   [2100-2113] Linje 4 fra Bergkrystallen [T-bane] mot Ringen til Brynseng [T-bane]
   [2113-2114] Gå fra Brynseng [T-bane] til Brynseng T (i Østensjøveien)
   [2116-2126] Linje 23 fra Brynseng T (i Østensjøveien) mot Lysaker til Storo (Ringvei-rampe nordover)
+
+Configuration file
+------------------
+
+You can add a file $HOME/.trafikanten with 
+
+    DEFAULT_FROM=Majorstuen
+
+in it and it will be used as where to route from is only one argument
+is given.
