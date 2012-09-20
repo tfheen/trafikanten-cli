@@ -36,7 +36,7 @@ use Term::ANSIColor;
 use Config::File;
 
 my $placesURI = "http://api-test.trafikanten.no/Place/FindMatchesOfType/%s?placeType=Stop";
-my $getTravelAfterByStopsURI = "http://api-test.trafikanten.no/Travel/GetTravelsAfterByStops?fromstops=%s&tostops=%s";
+my $getTravelAfterByStopsURI = "http://api-test.trafikanten.no/Travel/GetTravelsAdvanced?fromstops=%s&tostops=%s";
 
 my ($from, $to);
 my $conf;
