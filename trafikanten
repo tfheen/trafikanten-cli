@@ -35,18 +35,20 @@ use utf8;
 use Term::ANSIColor;
 use Config::File;
 
-my $placesURI = "http://api-test.trafikanten.no/Place/FindMatchesOfType/%s?placeType=Stop";
-my $getTravelAfterByStopsURI = "http://api-test.trafikanten.no/Travel/GetTravelsAdvanced?fromstops=%s&tostops=%s";
+my %conf = (
+	placesURI => "http://api.trafikanten.no/reisrest/Place/FindMatches/%s",
+	getTravelAfterByStopsURI => "http://api.trafikanten.no/reisrest/Travel/GetTravelsAdvanced/?changeMargin=2&changePunish=8&walkingFactor=100&isAfter=True&proposals=5&fromstops=%s&tostops=%s&time=%s"
+);
 
 my ($from, $to);
-my $conf;
 my $conffile = $ENV{HOME} . "/.trafikanten";
 if (-f $conffile) {
-	$conf = Config::File::read_config_file($conffile);
+	my $c = Config::File::read_config_file($conffile);
+	@conf{keys %{$c}} = values %{$c};
 }
 if (scalar(@ARGV) == 1) {
-	if (defined $conf and exists($conf->{DEFAULT_FROM})) {
-		$from = $conf->{DEFAULT_FROM};
+	if (exists($conf{DEFAULT_FROM})) {
+		$from = $conf{DEFAULT_FROM};
 	} else {
 		die "Not enough arguments";
 	}
@@ -56,12 +58,14 @@ if (scalar(@ARGV) == 1) {
 	$to = $ARGV[1];
 }
 
-my @fromplaces = map {$_->{ID}} @{decode_json(get(sprintf($placesURI, $from)))};
-my @toplaces = map {$_->{ID}} @{decode_json(get(sprintf($placesURI, $to)))};
+my @fromplaces = map {$_->{ID}} @{decode_json(get(sprintf($conf{placesURI}, $from)))};
+my @toplaces = map {$_->{ID}} @{decode_json(get(sprintf($conf{placesURI}, $to)))};
 
-my $travels = decode_json(get(sprintf($getTravelAfterByStopsURI, 
-				      join(",", @fromplaces),
-				      join(",", @toplaces))));
+my $json = get(sprintf($conf{getTravelAfterByStopsURI},
+		       join(",", @fromplaces),
+		       join(",", @toplaces),
+		       strftime("%d%m%Y%H%M", localtime)));
+my $travels = decode_json($json)->{GetTravelsAdvancedResult};
 
 sub format_date {
 	my ($format, $date) = (@_);
@@ -95,5 +99,3 @@ foreach my $option (@{$travels}) {
 		}
 	}
 }
-
-
