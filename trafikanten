@@ -36,8 +36,8 @@ use Term::ANSIColor;
 use Config::File;
 
 my %conf = (
-	placesURI => "http://api.trafikanten.no/reisrest/Place/FindMatches/%s",
-	getTravelAfterByStopsURI => "http://api.trafikanten.no/reisrest/Travel/GetTravelsAdvanced/?changeMargin=2&changePunish=8&walkingFactor=100&isAfter=True&proposals=5&fromstops=%s&tostops=%s&time=%s"
+	placesURI => "http://api.ruter.no/reisrest/Place/FindMatches/%s",
+	getTravelAfterByStopsURI => "http://api.ruter.no/reisrest/Travel/GetTravelsAdvanced/?changeMargin=2&changePunish=8&walkingFactor=100&isAfter=True&proposals=5&fromstops=%s&tostops=%s&time=%s"
 );
 
 my ($from, $to);
